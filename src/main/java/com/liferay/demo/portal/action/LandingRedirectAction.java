@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.expando.kernel.service.ExpandoValueService;
-import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
@@ -30,7 +28,6 @@ import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import org.osgi.service.component.annotations.ReferenceCardinality;
 
 
 @Component(
@@ -149,10 +146,6 @@ public class LandingRedirectAction implements LifecycleAction {
 
 		 return path;
 	 }
-
-	/*@Reference(cardinality=ReferenceCardinality.MANDATORY)
-	protected ExpandoBridge _expandoBridge;*/
-
 }
 	    
 	
