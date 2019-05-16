@@ -7,12 +7,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.expando.kernel.exception.NoSuchTableException;
+import com.liferay.expando.kernel.model.*;
+import com.liferay.expando.kernel.service.ExpandoColumnLocalService;
+import com.liferay.expando.kernel.service.ExpandoColumnLocalServiceUtil;
+import com.liferay.expando.kernel.service.ExpandoTableLocalService;
+import com.liferay.expando.kernel.service.ExpandoTableLocalServiceUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.*;
 
 import com.liferay.portal.kernel.events.ActionException;
 import com.liferay.portal.kernel.events.LifecycleAction;
@@ -43,6 +47,37 @@ public class LandingRedirectAction implements LifecycleAction {
 
 	private String PUBLIC_PAGE_CONTEXT = "/web";
 	private String PRIVATE_PAGE_CONTEXT = "/group";
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) throws PortalException {
+
+		// TODO automatically add custom field 'default-site' when deployed/started to users
+		System.out.println("Please check whether you have set a custom field 'default-site' to be able to use defaultLP");
+
+		/*Long companyId = new Long(20101);
+
+		ExpandoTable expandoTable = null;
+		try {
+			expandoTable = _ExpandoTableLocalService.getDefaultTable(companyId, User.class.getName());
+		} catch (NoSuchTableException e) {
+			try {
+				expandoTable = _ExpandoTableLocalService.addTable(companyId, User.class.getName(), ExpandoTableConstants.DEFAULT_TABLE_NAME);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		ExpandoColumn expandoColumn = null;
+		expandoColumn = _ExpandoColumnLocalService.getColumn(companyId, User.class.getName(), ExpandoTableConstants.DEFAULT_TABLE_NAME, "default-site");
+		if (expandoColumn == null) {
+			expandoColumn = _ExpandoColumnLocalService.addColumn(expandoTable.getTableId(), "default-site",
+					ExpandoColumnConstants.STRING, StringPool.BLANK);
+		}*/
+
+
+
+	}
 	
 	 @Override
 	 public void processLifecycleEvent(LifecycleEvent lifecycleEvent) throws ActionException {
@@ -146,6 +181,12 @@ public class LandingRedirectAction implements LifecycleAction {
 
 		 return path;
 	 }
+
+	@Reference(cardinality= ReferenceCardinality.MANDATORY)
+	protected ExpandoTableLocalService _ExpandoTableLocalService;
+
+	@Reference(cardinality= ReferenceCardinality.MANDATORY)
+	protected ExpandoColumnLocalService _ExpandoColumnLocalService;
 }
 	    
 	
